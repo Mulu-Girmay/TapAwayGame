@@ -52,6 +52,26 @@ class PickingRenderer:
 
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
 
+    def resize(self, width: int, height: int):
+        self.width = width
+        self.height = height
+
+        gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture)
+        gl.glTexImage2D(
+            gl.GL_TEXTURE_2D,
+            0,
+            gl.GL_RGB,
+            self.width,
+            self.height,
+            0,
+            gl.GL_RGB,
+            gl.GL_UNSIGNED_BYTE,
+            None,
+        )
+
+        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, self.depth_rbo)
+        gl.glRenderbufferStorage(gl.GL_RENDERBUFFER, gl.GL_DEPTH_COMPONENT24, self.width, self.height)
+
     def pick(self, mouse_pos, grid, rotation_matrix):
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.fbo)
         gl.glViewport(0, 0, self.width, self.height)

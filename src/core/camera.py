@@ -20,6 +20,9 @@ class Camera:
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
 
+    def resize_projection(self, width: int, height: int) -> None:
+        self.setup(width, height)
+
     def apply_view(self, rotation_matrix) -> None:
         from src.utils.matrix_utils import flatten_column_major
 

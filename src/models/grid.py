@@ -30,7 +30,7 @@ class Grid:
         for cube in self.get_active_cubes():
             if cube is exclude:
                 continue
-            if cube.selectable and cube.position == position:
+            if cube.position == position:
                 return True
         return False
 

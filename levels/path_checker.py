@@ -14,7 +14,7 @@ def can_exit(cube, grid) -> bool:
         return False
 
     for other in grid.get_active_cubes():
-        if other is cube or not other.selectable:
+        if other is cube:
             continue
 
         x, y, z = other.position

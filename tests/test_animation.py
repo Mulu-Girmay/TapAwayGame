@@ -8,7 +8,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 
-from levels.level_loader import load_level
+from levels.level_loader import LEVELS, load_level
 from levels.path_checker import can_exit
 from src.controllers.animation_controller import AnimationController
 from src.models.cube import Cube
@@ -40,11 +40,30 @@ class TapAwayLogicTests(unittest.TestCase):
         self.assertFalse(controller.busy)
 
     def test_level_loader_returns_playable_grid(self):
-        grid, name = load_level(0)
+        grid, name, subtitle = load_level(0)
 
         self.assertTrue(name)
+        self.assertTrue(subtitle)
         self.assertGreater(grid.remaining(), 0)
         self.assertGreater(len(grid.get_pickable_cubes()), 0)
+
+    def test_all_levels_are_solvable(self):
+        for index in range(len(LEVELS)):
+            grid, _, _ = load_level(index)
+            progress = True
+            safety = 0
+
+            while progress and not grid.solved() and safety < 200:
+                progress = False
+                for cube in list(grid.get_pickable_cubes()):
+                    if can_exit(cube, grid):
+                        cube.start_exit()
+                        cube.state = "removed"
+                        progress = True
+                        safety += 1
+                        break
+
+            self.assertTrue(grid.solved(), msg=f"Level {index} did not solve")
 
 
 if __name__ == "__main__":
