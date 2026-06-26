@@ -1,25 +1,22 @@
-# src/rendering/axis_renderer.py
-
 from OpenGL.GL import *
 
-class AxisRenderer:
 
+class AxisRenderer:
     def draw(self):
+        glLineWidth(2.0)
         glBegin(GL_LINES)
 
-        # X axis (red)
-        glColor3f(1, 0, 0)
-        glVertex3f(0, 0, 0)
-        glVertex3f(5, 0, 0)
+        glColor3f(0.95, 0.25, 0.25)
+        glVertex3f(0.0, 0.0, 0.0)
+        glVertex3f(4.0, 0.0, 0.0)
 
-        # Y axis (green)
-        glColor3f(0, 1, 0)
-        glVertex3f(0, 0, 0)
-        glVertex3f(0, 5, 0)
+        glColor3f(0.3, 0.95, 0.3)
+        glVertex3f(0.0, 0.0, 0.0)
+        glVertex3f(0.0, 4.0, 0.0)
 
-        # Z axis (blue)
-        glColor3f(0, 0, 1)
-        glVertex3f(0, 0, 0)
-        glVertex3f(0, 0, 5)
+        glColor3f(0.35, 0.55, 1.0)
+        glVertex3f(0.0, 0.0, 0.0)
+        glVertex3f(0.0, 0.0, 4.0)
 
         glEnd()
+        glLineWidth(1.0)

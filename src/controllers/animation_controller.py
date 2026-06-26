@@ -1,29 +1,27 @@
 class AnimationController:
-
     def __init__(self):
         self.animations = []
 
-    def add_animation(self, cube):
-        self.animations.append({
-            "cube": cube,
-            "progress": 0
-        })
+    @property
+    def busy(self) -> bool:
+        return len(self.animations) > 0
+
+    def add_animation(self, cube) -> bool:
+        if not cube.start_exit():
+            return False
+
+        self.animations.append(cube)
+        return True
 
     def update(self, dt):
+        completed = []
+        remaining = []
 
-        for anim in self.animations:
+        for cube in self.animations:
+            if cube.update(dt):
+                completed.append(cube)
+            else:
+                remaining.append(cube)
 
-            anim["progress"] += dt * 0.5
-
-            cube = anim["cube"]
-            dx, dy, dz = cube.direction
-
-            cube.position = (
-                cube.position[0] + dx * 0.1,
-                cube.position[1] + dy * 0.1,
-                cube.position[2] + dz * 0.1,
-            )
-
-        self.animations = [
-            a for a in self.animations if a["progress"] < 1
-        ]
+        self.animations = remaining
+        return completed
